@@ -4,9 +4,6 @@
   "main": "dist/pareach.cjs.js",
   "module": "dist/pareach.esm.js",
   "browser": "dist/pareach.umd.js",
-  "dependencies": {
-    "ms": "^2.0.0"
-  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-node-resolve": "^7.0.0",

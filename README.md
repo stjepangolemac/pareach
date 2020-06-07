@@ -2,4 +2,4 @@
 
 This repo contains the source of `parEach`, the function that was made for the article:
 
-[Rules of thumb for kicking Node into high gear like a F1 car - playing it by ear](https://sgolem.com/)
+[Kicking Node into high gear for data processing or how to hire 100 cats to catch a mouse](https://sgolem.com/)

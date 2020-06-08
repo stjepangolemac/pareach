@@ -1,32 +1,14 @@
-require('isomorphic-fetch');
 const { performance } = require('perf_hooks');
 
 const parEach = require('..');
+const parallel = require('../src/workers');
 
-const work = async url => fetch(url);
+const work = async (delay) => new Promise(resolve => setTimeout(resolve, delay));
+const delays = [];
 
-const urls = [
-  'https://www.google.com/search?q=1',
-  'https://www.google.com/search?q=2',
-  'https://www.google.com/search?q=3',
-  'https://www.google.com/search?q=4',
-  'https://www.google.com/search?q=5',
-  'https://www.google.com/search?q=6',
-  'https://www.google.com/search?q=7',
-  'https://www.google.com/search?q=8',
-  'https://www.google.com/search?q=9',
-  'https://www.google.com/search?q=10',
-  'https://www.google.com/search?q=11',
-  'https://www.google.com/search?q=12',
-  'https://www.google.com/search?q=13',
-  'https://www.google.com/search?q=14',
-  'https://www.google.com/search?q=15',
-  'https://www.google.com/search?q=16',
-  'https://www.google.com/search?q=17',
-  'https://www.google.com/search?q=18',
-  'https://www.google.com/search?q=19',
-  'https://www.google.com/search?q=20',
-];
+for (let i = 0; i < 300; i++) {
+  delays.push(Math.random() * 1000);
+}
 
 const measure = async fn => {
   const t1 = performance.now();
@@ -39,19 +21,26 @@ const measure = async fn => {
 const start = async () => {
   // Fire request one by one
   const sequential = async () => {
-    for (let url of urls) {
-      await work(url);
+    for (let delay of delays) {
+      await work(delay);
     }
   };
 
   // Fire request in batches
-  const batched = async () => parEach(work, urls);
+  const batched = async () => parEach(delays, work, { concurrencyLimit: 10 });
 
+  const parallelized = async () => parallel(delays, work, { parallel: true });
+
+  console.log('Start');
   const sequentialTimeElapsed = await measure(sequential);
+  console.log('====================');
   const batchedTimeElapsed = await measure(batched);
+  console.log('====================');
+  const parallelizedTimeElapsed = await measure(parallelized);
 
   console.log(`Sequential took ${sequentialTimeElapsed} seconds`);
   console.log(`Batched took ${batchedTimeElapsed} seconds`);
+  console.log(`Parallelized took ${parallelizedTimeElapsed} seconds`);
 };
 
 // Keep node open until async functions are done

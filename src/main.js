@@ -1,5 +1,9 @@
-const parEach = async (work, allArgs, options = {}) => {
-	const { batchSize = 5 } = options;
+const parEach = async (allArgs, work, options = {}) => {
+  const { concurrencyLimit = 5, onProgress = () => null } = options;
+
+  if (!allArgs.length) {
+    return;
+  }
 
 	let callWhenDone;
 	let workersSpawned = 0;
@@ -8,8 +12,12 @@ const parEach = async (work, allArgs, options = {}) => {
 	const after = () => {
 		workersSpawned -= 1;
 
+		onProgress(
+			((nextArgsIndex / Math.max(nextArgsIndex, allArgs.length)) * 100).toFixed(2)
+		);
+
 		const allArgsUsed = nextArgsIndex >= allArgs.length;
-		const allWorkersWork = workersSpawned >= batchSize;
+		const allWorkersWork = workersSpawned >= concurrencyLimit;
 		const noWorkersWork = workersSpawned <= 0;
 
 		if (!allWorkersWork && !allArgsUsed) {
@@ -24,6 +32,8 @@ const parEach = async (work, allArgs, options = {}) => {
 	const spawn = () => {
 		const args = allArgs[nextArgsIndex];
 
+    console.log('Starting work for', args);
+
 		if (Array.isArray(args)) {
 			work(...args).then(after);
 		} else {
@@ -34,11 +44,12 @@ const parEach = async (work, allArgs, options = {}) => {
 		nextArgsIndex += 1;
 	};
 
-	for (let i = 0; i < batchSize; i++) {
+  const workersToSpawn = Math.min(allArgs.length, concurrencyLimit);
+	for (let i = 0; i < workersToSpawn; i++) {
 		spawn();
 	}
 
 	return new Promise(resolve => (callWhenDone = resolve));
 };
 
-export default parEach;
+module.exports = parEach;

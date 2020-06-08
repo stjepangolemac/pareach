@@ -1,4 +1,4 @@
-# parEach - a tiny function that "parallelizes" work in NodeJS
+# parEach - a tiny function that "parallelizes" work for NodeJS
 
 How to install:
 
@@ -15,7 +15,7 @@ await parEach(work, args[, options]);
 ```
 
 - `work` - an async function that accepts the args provided
-- `args` - an array of arguments to call the `work` function (if you pass more than one then use a nested array `[['foo'], ...]`)
+- `args` - an array of arguments to call the `work` function (if you pass more than one then use a nested array `[['foo', 'bar'], ...]`)
 - `options` - for now accepts only `concurrencyLimit` which is `5` by default and a `parallel` flag
 
 ## Example of parallel processing

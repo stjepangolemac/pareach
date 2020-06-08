@@ -1,12 +1,12 @@
 # parEach - a tiny function that "parallelizes" work for NodeJS
 
-How to install:
+## How to install:
 
 ```
 npm install pareach
 ```
 
-How to use:
+## How to use:
 
 ```
 const parEach = require('pareach');
@@ -32,7 +32,6 @@ This was will spawn a thread for every logical CPU and split the work.
 Sequential took 155.45 seconds
 Batched took 16.04 seconds
 Parallelized took 3.55 seconds
-
 ```
 
 This was made for the article:

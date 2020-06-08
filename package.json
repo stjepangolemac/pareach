@@ -2,7 +2,7 @@
   "name": "pareach",
   "keywords": ["node", "data", "processing", "multithreaded", "concurrency", "concurrent"],
   "repository": "https://github.com/stjepangolemac/pareach",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "dist/pareach.cjs.js",
   "module": "dist/pareach.esm.js",
   "browser": "dist/pareach.umd.js",

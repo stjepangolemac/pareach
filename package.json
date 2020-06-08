@@ -1,7 +1,7 @@
 {
   "name": "pareach",
   "repository": "https://github.com/stjepangolemac/pareach",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/pareach.cjs.js",
   "module": "dist/pareach.esm.js",
   "browser": "dist/pareach.umd.js",

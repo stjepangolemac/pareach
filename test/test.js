@@ -1,12 +1,11 @@
 const { performance } = require('perf_hooks');
 
 const parEach = require('..');
-const parallel = require('../src/workers');
 
 const work = async (delay) => new Promise(resolve => setTimeout(resolve, delay));
 const delays = [];
 
-for (let i = 0; i < 300; i++) {
+for (let i = 0; i < 100; i++) {
   delays.push(Math.random() * 1000);
 }
 
@@ -29,7 +28,7 @@ const start = async () => {
   // Fire request in batches
   const batched = async () => parEach(delays, work, { concurrencyLimit: 10 });
 
-  const parallelized = async () => parallel(delays, work, { parallel: true });
+  const parallelized = async () => parEach(delays, work, { concurrencyLimit: 10, parallel: true });
 
   console.log('Start');
   const sequentialTimeElapsed = await measure(sequential);

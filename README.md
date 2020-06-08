@@ -16,7 +16,9 @@ await parEach(work, args[, options]);
 
 - `work` - an async function that accepts the args provided
 - `args` - an array of arguments to call the `work` function (if you pass more than one then use a nested array `[['foo', 'bar'], ...]`)
-- `options` - for now accepts only `concurrencyLimit` which is `5` by default and a `parallel` flag
+- `options` - a configuration object
+    - `concurrencyLimit` - which is `5` by default, controls concurrency per thread
+    - `parallel` - process work with multiple threads
 
 ## Example of parallel processing
 
